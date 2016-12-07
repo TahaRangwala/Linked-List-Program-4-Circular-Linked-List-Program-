@@ -1,0 +1,53 @@
+/*Name: Taha Rangwala
+ * Date: November 21, 2016
+ * Purpose: The purpose of this replace gui class is to allow the user to use a user friendly interface in order to replace
+ * the current player
+ */
+
+import javax.swing.*;//allows for more window objects
+
+import BreezySwing.*;//allows for more window objects
+
+import java.awt.*;//allows for more colors
+
+public class ReplaceGUI extends GBDialog {
+
+	// Declaring window objects
+	private JLabel firstNameLabel, lastNameLabel;
+	private JTextField firstNameField, lastNameField;
+	private JButton Replace;
+
+	/*Purpose: This is the constructor method of the dialog box class 
+	 * param F This is the JFrame settings needed for the super class
+	 * param P This is the player being replaced
+	 */
+	public ReplaceGUI(JFrame F, Player P) {
+		super(F);
+		setSize(500, 200);
+		setTitle("Replace A Player");
+		setLocationRelativeTo(null);// Location is in center of screen
+		getContentPane().setBackground(new Color(169, 229, 255));// background of GUI is light blue
+		firstNameLabel = addLabel("First Name", 1, 1, 1, 1);
+		firstNameField = addTextField(P.getFirstName(), 1, 2, 1, 1);
+		lastNameLabel = addLabel("Last Name", 1, 3, 1, 1);
+		lastNameField = addTextField(P.getLastName(), 1, 4, 1, 1);
+		Replace = addButton("Replace",2,3,1,1);
+	}
+
+	/*Purpose: The purpose of this method is to perform certain tasks according
+	 * to which button the user clicks
+	 * @param buttonObj This is the button object which allows the program to
+	 * tell which button the user has pressed
+	 */
+	public void buttonClicked(JButton buttonObj) {
+		if (buttonObj == Replace) {
+			try{
+				Player.errorCheckPlayers(firstNameField.getText(), lastNameField.getText());
+				GUI.mainGame.replacePlayer(firstNameField.getText(), lastNameField.getText());
+				setVisible(false);
+			}catch (Exception E) {
+				JOptionPane.showMessageDialog(new JFrame(), E.getLocalizedMessage(), "Error Message", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+}
